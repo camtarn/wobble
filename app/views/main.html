@@ -4,6 +4,10 @@
     (<span ng-click="sequencer.remove(note)">remove</a>)
   </li>
 </ul>
+Position: <span ng-bind="sequencer.position"></span><br/>
+<button ng-click="sequencer.play()">Play!</button>
+<button ng-click="sequencer.stop()">Stop</button>
+<button ng-click="sequencer.rewind()">Rewind</button>
 <form>
 soundId: <select ng-model="newNote.soundId" ng-options="sound for sound in sounds"></select><br/>
 ticks: <input type="number" ng-model="newNote.ticks" /><br/>
