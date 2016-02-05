@@ -1,1 +1,11 @@
-<p>main</p>
+<ul ng-repeat="note in sequencer.timeline">
+  <li>
+    {{note.soundId}} at {{note.ticks}}
+    (<span ng-click="sequencer.remove(note)">remove</a>)
+  </li>
+</ul>
+<form>
+soundId: <select ng-model="newNote.soundId" ng-options="sound for sound in sounds"></select><br/>
+ticks: <input type="number" ng-model="newNote.ticks" /><br/>
+<input type="submit" ng-click="add()" value="Add!" />
+</form>

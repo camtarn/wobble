@@ -1,7 +1,9 @@
 angular.module('wobbleApp')
-  .controller 'MainCtrl', () ->
-    queue = new createjs.LoadQueue()
-    queue.installPlugin( createjs.Sound )
-    for type in [ 'bd', 'tom', 'snr' ]
-      for num in [ 1..4 ]
-        queue.loadFile( id: type + num, src: "/sounds/#{type}#{num}.mp3" )
+  .controller 'MainCtrl', [ '$scope', 'sounds', 'sequencer', ( ( $scope, sounds, sequencer ) ->
+    $scope.sequencer = sequencer
+    $scope.sounds = ( sound.id for sound in sounds )
+    $scope.newNote = {}
+    $scope.add = ->
+      sequencer.add( $scope.newNote )
+      $scope.newNote = {}
+  ) ]
