@@ -403,9 +403,14 @@ module.exports = function (grunt) {
     },
 
     karma: {
+      // Single run for use in test target
       unit: {
         configFile: 'test/karma.conf.js',
         singleRun: true
+      },
+      // Continuous watch mode
+      watch: {
+        configFile: 'test/karma.conf.js'
       }
     }
   });
@@ -443,7 +448,7 @@ module.exports = function (grunt) {
     'wiredep',
     'connect:test',
     'karmaManualMode',
-    'karma'
+    'karma:unit'
   ]);
 
   grunt.registerTask('build', [

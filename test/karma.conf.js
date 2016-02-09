@@ -2,9 +2,21 @@
 module.exports = function(config) {
   config.set({
     basePath: '../',
-    frameworks: ['jasmine'],
-    plugins: ['karma-coffee-preprocessor', 'karma-jasmine', 'karma-spec-reporter'],
+    frameworks: [
+      'jasmine',
+      'jasmine-sinon',
+      'sinon'
+    ],
+    plugins: [
+      'karma-coffee-preprocessor',
+      'karma-jasmine',
+      'karma-jasmine-sinon',
+      'karma-sinon',
+      'karma-spec-reporter'
+    ],
+
     reporters: ['spec'],
+    client: { captureConsole: true },
 
     // make sure to include the .coffee files not the compiled .js files 
     files: [
