@@ -209,24 +209,11 @@ module.exports = function (grunt) {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath:  /\.\.\//
       },
-      /*
       test: {
         devDependencies: true,
-        src: '<%= karma.unit.configFile %>',
+        src: 'test/karma.conf.js',
         ignorePath:  /\.\.\//,
-        fileTypes:{
-          js: {
-            block: /(([\s\t]*)\/{2}\s*?bower:\s*?(\S*))(\n|\r|.)*?(\/{2}\s*endbower)/gi,
-              detect: {
-                js: /'(.*\.js)'/gi
-              },
-              replace: {
-                js: '\'{{filePath}}\','
-              }
-            }
-          }
       },
-      */
       sass: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         ignorePath: /(\.\.\/){1,2}bower_components\//
@@ -308,32 +295,6 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    // The following *-min tasks will produce minified files in the dist folder
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
 
     imagemin: {
       dist: {
@@ -439,7 +400,21 @@ module.exports = function (grunt) {
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
       }
+    },
+
+    karma: {
+      unit: {
+        configFile: 'test/karma.conf.js',
+        singleRun: true
+      }
     }
+  });
+
+
+  grunt.registerTask('karmaManualMode', 'Warn user that Karma is in manual mode', function() {
+    grunt.log.subhead('NOTE: Karma is in manual mode!');
+    grunt.log.writeln('Point a browser to http://this.server:9876 to run tests.');
+    grunt.log.writeln('Karma will wait for 60 seconds for a browser to attach.');
   });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
@@ -458,11 +433,6 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run(['serve:' + target]);
-  });
-
   grunt.registerTask('test', [
     'clean:server',
     'coffee',
@@ -471,8 +441,9 @@ module.exports = function (grunt) {
     'compass',
     'postcss',
     'wiredep',
-    'connect:test'
-    // TODO: unit testing
+    'connect:test',
+    'karmaManualMode',
+    'karma'
   ]);
 
   grunt.registerTask('build', [

@@ -6,7 +6,7 @@ class Sequencer
   # of an approximate measure.
   TICKS_PER_BEAT = 1000
 
-  constructor: ( @$timeout, @sounds ) ->
+  constructor: ( @$timeout, @player, @sounds ) ->
     # Timeline contains tuples of
     # { soundId, ticks }
     @timeline = []
@@ -49,7 +49,7 @@ class Sequencer
   _triggerNotes: ->
     notes = _.filter( @timeline, ( note ) => note.ticks == @position )
     for note in notes
-      createjs.Sound.play( note.soundId )
+      @player.play( note.soundId )
 
   _waitUntilNextUpdate: ->
     @$timeout.cancel( @_currentTimeout ) if @_currentTimeout
@@ -79,4 +79,4 @@ class Sequencer
 
 
 angular.module('wobbleApp')
-  .service( 'sequencer', [ '$timeout', 'sounds', Sequencer ] )
+  .service( 'sequencer', [ '$timeout', 'player', 'sounds', Sequencer ] )
